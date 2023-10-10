@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions/cartActions';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, Button, Typography, Grid } from '@mui/material';
 
 const BookDetails = ({ addToCart }) => {
   const [book, setBook] = useState({});
@@ -28,18 +28,39 @@ const BookDetails = ({ addToCart }) => {
   }, [bookID]);
 
   return (
-    <div>
-      <h2>{book.title}</h2>
-      <p>Author: {book.authors}</p>
-      <p>Average Rating: {book.average_rating}</p>
-      <p>ISBN: {book.isbn}</p>
-      <p>Language: {book.language_code}</p>
-      <p>Number of Pages: {book.num_pages}</p>
-      <p>Publication Date: {new Date(book.publication_date).toLocaleDateString()}</p>
-      <p>Publisher: {book.publisher}</p>
-      <button onClick={() => addToCart(book)}>Add to Cart</button>
-      <Link to="/cart">View Cart</Link>
-    </div>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Card sx={{ minWidth: 275, backgroundColor: 'action.hover', m: 3 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" gutterBottom>
+              {book.title}
+            </Typography>
+            <Typography variant="body2">
+              Author: {book.authors}
+            </Typography>
+            <Typography color="text.secondary">
+              Average Rating: {book.average_rating}
+            </Typography>
+            <Typography variant="body2">
+              ISBN: {book.isbn}
+            </Typography>
+            <Typography color="text.secondary">
+              Language: {book.language_code}
+            </Typography>
+            <Typography variant="body2">
+              Number of Pages: {book.num_pages}
+            </Typography>
+            <Typography color="text.secondary">
+              Publication Date: {new Date(book.publication_date).toLocaleDateString()}
+            </Typography>
+            <Typography variant="body2">
+              Publisher: {book.publisher}
+            </Typography>
+            <Button variant="contained" color="primary" onClick={() => addToCart(book)}>Add to Cart</Button>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 
