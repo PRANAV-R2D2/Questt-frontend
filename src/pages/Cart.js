@@ -1,12 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { removeFromCart } from '../redux/actions/cartActions';
+import { Link } from 'react-router-dom';
 
-function Cart() {
+const Cart = ({ cart, removeFromCart }) => {
+  const handleEmptyCart = () => {
+    // Remove all books from the cart
+    cart.forEach(book => removeFromCart(book._id));
+  };
+
   return (
     <div>
-      <h1>Cart</h1>
-      <p>This is the cart page of our application.</p>
+      <h2>Your Cart</h2>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <>
+          {cart.map(book => (
+            <div key={book._id}>
+              <h3>{book.title}</h3>
+              <p>Author: {book.authors}</p>
+              <button onClick={() => removeFromCart(book._id)}>Remove from Cart</button>
+            </div>
+          ))}
+          <button onClick={handleEmptyCart}>Empty Cart</button>
+          <Link to="/checkout">Go to Checkout</Link>
+        </>
+      )}
     </div>
   );
-}
+};
 
-export default Cart;
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = {
+  removeFromCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+

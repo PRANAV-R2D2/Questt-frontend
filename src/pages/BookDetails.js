@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
+import { Link } from 'react-router-dom';
 
-const BookDetails = () => {
+const BookDetails = ({ addToCart }) => {
   const [book, setBook] = useState({});
   const { bookID } = useParams();
 
@@ -34,8 +37,14 @@ const BookDetails = () => {
       <p>Number of Pages: {book.num_pages}</p>
       <p>Publication Date: {new Date(book.publication_date).toLocaleDateString()}</p>
       <p>Publisher: {book.publisher}</p>
+      <button onClick={() => addToCart(book)}>Add to Cart</button>
+      <Link to="/cart">View Cart</Link>
     </div>
   );
 };
 
-export default BookDetails;
+const mapDispatchToProps = {
+  addToCart,
+};
+
+export default connect(null, mapDispatchToProps)(BookDetails);

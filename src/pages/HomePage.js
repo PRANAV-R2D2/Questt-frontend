@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
+import { Link } from 'react-router-dom';
 
-const HomePage = () => {
+const HomePage = ({ addToCart }) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -17,6 +20,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <Link to="/cart">View Cart</Link>
       {books.map(book => (
         <div key={book._id}>
           <h2>{book.title}</h2>
@@ -27,10 +31,15 @@ const HomePage = () => {
           <p>Number of Pages: {book.num_pages}</p>
           <p>Publication Date: {new Date(book.publication_date).toLocaleDateString()}</p>
           <p>Publisher: {book.publisher}</p>
+          <button onClick={() => addToCart(book)}>Add to Cart</button>
         </div>
       ))}
     </div>
   );
 };
 
-export default HomePage;
+const mapDispatchToProps = {
+  addToCart,
+};
+
+export default connect(null, mapDispatchToProps)(HomePage);

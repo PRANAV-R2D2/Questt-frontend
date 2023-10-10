@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
+import { Link } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({ addToCart }) => {
   const [searchType, setSearchType] = useState('title');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -18,6 +21,7 @@ const Search = () => {
 
   return (
     <div>
+      <Link to="/cart">View Cart</Link>
       <select onChange={e => setSearchType(e.target.value)}>
         <option value="title">Title</option>
         <option value="authors">Author</option>
@@ -35,10 +39,15 @@ const Search = () => {
           <p>Author: {result.authors}</p>
           <p>Publisher: {result.publisher}</p>
           {/* Display other result details */}
+          <button onClick={() => addToCart(result)}>Add to Cart</button>
         </div>
       ))}
     </div>
   );
 };
 
-export default Search;
+const mapDispatchToProps = {
+  addToCart,
+};
+
+export default connect(null, mapDispatchToProps)(Search);
