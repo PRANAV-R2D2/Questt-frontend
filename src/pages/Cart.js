@@ -1,9 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { removeFromCart } from '../redux/actions/cartActions';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
 const Cart = ({ cart, removeFromCart }) => {
+  const location = useLocation();
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    window.alert('You need to login to access the cart');
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
   const handleEmptyCart = () => {
     // Remove all books from the cart
     cart.forEach(book => removeFromCart(book._id));
@@ -40,4 +48,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
-

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -11,7 +13,8 @@ const Login = () => {
       .then(response => {
         if (response.status === 200) {
           alert('Login successful!');
-          localStorage.setItem('token', response.data.token); 
+          localStorage.setItem('token', response.data.token);
+          navigate('/'); // Redirect to home page
         } else {
           alert('Login failed!');
         }

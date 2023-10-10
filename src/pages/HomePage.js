@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions/cartActions';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HomePage = ({ addToCart }) => {
   const [books, setBooks] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/books')
@@ -18,9 +19,19 @@ const HomePage = ({ addToCart }) => {
       });
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <div>
       <Link to="/cart">View Cart</Link>
+      {localStorage.getItem('token') ? (
+        <button onClick={handleLogout}>Logout</button>
+      ) : (
+        <Link to="/login">Login</Link>
+      )}
       {books.map(book => (
         <div key={book._id}>
           <h2>{book.title}</h2>

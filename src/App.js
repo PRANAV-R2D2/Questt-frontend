@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import BookDetails from './pages/BookDetails';
 import SearchResults from './pages/SearchResults';
@@ -16,13 +16,14 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<HomePage />} exact />
+          <Route path="/" element={<HomePage />} />
           <Route path="/book/:bookID" element={<BookDetails />} />
           <Route path="/search/:query" element={<SearchResults />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+
         </Routes>
         <Footer />
       </div>
